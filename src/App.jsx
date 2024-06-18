@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import './App.scss';
 
@@ -21,24 +22,48 @@ class App extends React.Component {
     };
   }
 
-  callApi = (requestParams) => {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
-    };
-    this.setState({data, requestParams});
+  callApi = async (requestParams) => {
+    if(!requestParams || requestParams.url === "") {
+      // const data = {};
+      return null;
+    }
+
+    try {
+      let response = await axios.get(requestParams.url);
+        
+        let count;
+        let results;
+
+        // Check if response contains an array of results
+        if(Array.isArray(response.data.results)) {
+          results = response.data.results;
+          count = response.data.results.length;
+        } else {
+          // For single object if result is not an array
+          results = [response.data]; // Add response object into an array
+          count = 1
+        }
+        // Create data object
+        const data = {
+          count: count,
+          results: results,
+        };
+
+        // Update state with data an requestParams
+        this.setState({data, requestParams});
+    
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
   }
 
   render() {
+    const url = this.state.requestParams.url ? this.state.requestParams.url : 'enter url in the form';
     return (
       <React.Fragment>
         <Header />
         <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
+        <div>URL: {url}</div>
         <Form handleApiCall={this.callApi} />
         <Results data={this.state.data} />
         <Footer />

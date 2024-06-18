@@ -1,0 +1,10 @@
+@import '../../variables';
+
+header {
+  background: $backgroundColor;
+  border-bottom: 1px solid #eee;
+  color: $text-color-yellow;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
