@@ -23,23 +23,37 @@ class App extends React.Component {
   }
 
   callApi = async (requestParams) => {
-    let response = await axios.get('https://swapi.dev/api/people');
-    let results = response.data.results;
-    let count = response.data.results.length;
-    // output sent to 
-    const data = {
-      count: count,
-      results: results,
-    };
-    this.setState({data, requestParams});
+    if(!requestParams || requestParams.url === "") {
+      // const data = {};
+      return null;
+    }
+
+    try {
+      let response = await axios.get(requestParams.url);
+      
+        let results = response.data.results;
+        let count = response.data.results.length;
+        // Create data object
+        const data = {
+          count: count,
+          results: results,
+        };
+        // Update state with data an requestParams
+        this.setState({data, requestParams});
+    
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+      // Handle error, update state to indicate error
+    }
   }
 
   render() {
+    const url = this.state.requestParams.url ? this.state.requestParams.url : 'enter url in the form';
     return (
       <React.Fragment>
         <Header />
         <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
+        <div>URL: {url}</div>
         <Form handleApiCall={this.callApi} />
         <Results data={this.state.data} />
         <Footer />
