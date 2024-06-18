@@ -30,20 +30,30 @@ class App extends React.Component {
 
     try {
       let response = await axios.get(requestParams.url);
-      
-        let results = response.data.results;
-        let count = response.data.results.length;
+        
+        let count;
+        let results;
+
+        // Check if response contains an array of results
+        if(Array.isArray(response.data.results)) {
+          results = response.data.results;
+          count = response.data.results.length;
+        } else {
+          // For single object if result is not an array
+          results = [response.data]; // Add response object into an array
+          count = 1
+        }
         // Create data object
         const data = {
           count: count,
           results: results,
         };
+
         // Update state with data an requestParams
         this.setState({data, requestParams});
     
     } catch (error) {
       console.error('Error fetching data: ', error);
-      // Handle error, update state to indicate error
     }
   }
 
