@@ -1,0 +1,9 @@
+@import '../../variables.scss';
+
+footer {
+    background: $backgroundColor;
+    color: $text-color-yellow;
+    border-top: 1px solid #eee;
+    padding: 1em 3em;
+    margin: 0;
+}
