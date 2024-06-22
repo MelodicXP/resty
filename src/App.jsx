@@ -35,9 +35,9 @@ class App extends React.Component {
         let results;
 
         // Check if response contains an array of results
-        if(Array.isArray(response.data.results)) {
-          results = response.data.results;
-          count = response.data.results.length;
+        if(Array.isArray(response.data)) {
+          results = response.data;
+          count = response.data.length;
         } else {
           // For single object if result is not an array
           results = [response.data]; // Add response object into an array
