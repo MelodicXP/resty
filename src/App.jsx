@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -12,19 +13,14 @@ import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
 
-class App extends React.Component {
+const App = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
-  }
+  // Initialize states
+  const [data, setData] = useState(null);
+  const [requestParams, setRequestParams] = useState({});
 
-  callApi = async (requestParams) => {
+  const callApi = async (requestParams) => {
     if(!requestParams || requestParams.url === "") {
-      // const data = {};
       return null;
     }
 
@@ -50,26 +46,26 @@ class App extends React.Component {
         };
 
         // Update state with data an requestParams
-        this.setState({data, requestParams});
+        setData(data);
+        setRequestParams(requestParams);
     
     } catch (error) {
       console.error('Error fetching data: ', error);
     }
-  }
+  } 
 
-  render() {
-    const url = this.state.requestParams.url ? this.state.requestParams.url : 'enter url in the form';
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {url}</div>
-        <Form handleApiCall={this.callApi} />
-        <Results data={this.state.data} />
-        <Footer />
-      </React.Fragment>
-    );
-  }
+  const url = requestParams.url ? requestParams.url : 'enter url in the form';
+
+  return (
+    <React.Fragment>
+      <Header />
+      <div>Request Method: {requestParams.method}</div>
+      <div>URL: {url}</div>
+      <Form handleApiCall={callApi} />
+      <Results data={data} />
+      <Footer />
+    </React.Fragment>
+  );
 }
 
 export default App;
