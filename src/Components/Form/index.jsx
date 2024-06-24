@@ -6,17 +6,22 @@ const Form = (props) => {
 
   // Create a state variable to hold url
   const [url, setUrl] = useState('');
+  const [method, setMethod] = useState('GET');
 
-  // Update state variable when input changes
+  // Handle url input from user
   const handleInputChange = (e) => {
     setUrl(e.target.value);
   };
+
+  const handleMethodChange = (e) => {
+    setMethod(e.target.value);
+  }
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
-      method: 'GET',
+      method: method,
       url: url,
     };
     props.handleApiCall(formData); // Access from props
@@ -25,7 +30,7 @@ const Form = (props) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label >
+        <label className="input">
           <span>URL: </span>
           <input 
             name='url' 
@@ -35,12 +40,30 @@ const Form = (props) => {
           />
           <button type="submit">GO!</button>
         </label>
-        <label className="methods">
-          <span id="get">GET</span>
-          <span id="post">POST</span>
-          <span id="put">PUT</span>
-          <span id="delete">DELETE</span>
-        </label>
+
+        <div className="methods">
+
+          <label>
+            <input onChange={handleMethodChange} type="radio" name="method" value ="get" />
+            <span id="get">GET</span>
+          </label>
+          
+          <label>
+            <input onChange={handleMethodChange} type="radio" name="method" value ="post" />
+            <span id="get">POST</span>
+          </label>
+          
+          <label>
+            <input onChange={handleMethodChange} type="radio" name="method" value ="put" />
+            <span id="get">PUT</span>
+          </label>
+          
+          <label>
+            <input onChange={handleMethodChange} type="radio" name="method" value ="delete" />
+            <span id="get">DELETE</span>
+          </label>
+
+        </div>
       </form>
     </>
   );
