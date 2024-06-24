@@ -25,7 +25,11 @@ const App = () => {
     }
 
     try {
-      let response = await axios.get(requestParams.url);
+      let response = await axios({
+        method: requestParams.method,
+        url: requestParams.url,
+        body: requestParams.body
+      });
         
         let count;
         let results;
