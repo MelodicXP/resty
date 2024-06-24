@@ -30,31 +30,43 @@ const App = () => {
         url: requestParams.url,
         body: requestParams.body
       });
-        
-        let count;
-        let results;
+      
+      let count;
+      let results;
 
-        // Check if response contains an array of results
-        if(Array.isArray(response.data)) {
-          results = response.data;
-          count = response.data.length;
-        } else {
-          // For single object if result is not an array
-          results = [response.data]; // Add response object into an array
-          count = 1
-        }
-        // Create data object
-        const data = {
-          count: count,
-          results: results,
-        };
+      // Check if response contains an array of results
+      if(Array.isArray(response.data)) {
+        results = response.data;
+        count = response.data.length;
+      } else {
+        // For single object if result is not an array
+        results = [response.data]; // Add response object into an array
+        count = 1
+      }
+      // Create data object
+      const data = {
+        count: count,
+        results: results,
+      };
 
-        // Update state with data an requestParams
-        setData(data);
-        setRequestParams(requestParams);
+      // Update state with data an requestParams
+      setData(data);
+      setRequestParams(requestParams);
     
     } catch (error) {
       console.error('Error fetching data: ', error);
+      let count = 0; // if error count is zero
+      let results = [error.response.data.message]; // log message
+
+      // Create data object
+      const data = {
+        count: count, 
+        results: results
+      };
+
+      // Update state with data and requestParams
+      setData(data);
+      setRequestParams(requestParams);
     }
   } 
 
