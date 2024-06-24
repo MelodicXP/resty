@@ -24,12 +24,24 @@ const App = () => {
       return null;
     }
 
+    console.log(requestParams);
+
     try {
-      let response = await axios({
-        method: requestParams.method,
-        url: requestParams.url,
-        body: requestParams.body
-      });
+      let response; 
+      
+      // If method is get or delete, no body required
+      if(requestParams.method === 'get' || requestParams.method === 'delete') {
+        response = await axios({
+          method: requestParams.method,
+          url: requestParams.url,
+        });
+      } else {
+        response = await axios({
+          method: requestParams.method,
+          url: requestParams.url,
+          data: requestParams.body
+        });
+      }
       
       let count;
       let results;
