@@ -15,4 +15,11 @@ body {
     flex-direction: column;
     height: 100%;
   }
+
+  div {
+    &.feedbackInfo {
+      width: max-content;
+      margin: .25rem auto;
+    }
+  }
 }
