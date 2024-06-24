@@ -45,18 +45,22 @@ const App = () => {
       
       let count;
       let results;
+      let header;
 
       // Check if response contains an array of results
       if(Array.isArray(response.data)) {
         results = response.data;
         count = response.data.length;
+        header = response.headers;
       } else {
         // For single object if result is not an array
         results = [response.data]; // Add response object into an array
         count = 1
+        header = response.headers;
       }
       // Create data object
       const data = {
+        header: header,
         count: count,
         results: results,
       };
@@ -73,7 +77,7 @@ const App = () => {
       // Create data object
       const data = {
         count: count, 
-        results: results
+        results: results,
       };
 
       // Update state with data and requestParams
