@@ -94,10 +94,12 @@ const App = () => {
   return (
     <React.Fragment>
       <Header />
-      <div className="feedbackInfo">Request Method: {requestParams.method}</div>
-      <div className="feedbackInfo">URL: {url}</div>
-      <Form handleApiCall={callApi} />
-      <Results data={data} loading={loading}/>
+      <div className="form-container">
+        <div className="feedback-info">Request Method: {requestParams.method}</div>
+        <div className="feedback-info">URL: {url}</div>
+        <Form handleApiCall={callApi} />
+        <Results data={data} loading={loading}/>
+      </div>
       <Footer />
     </React.Fragment>
   );
