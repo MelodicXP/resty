@@ -77,7 +77,7 @@ const Form = (props) => {
 
           {(method === 'post' || method === 'put') && (
           <label className="input">
-            <span>Body: </span>
+            <div>Body: </div>
             <textarea
               name="body"
               value={body}
