@@ -93,4 +93,4 @@ Currently, two official plugins are available:
 
 Not required for this lab
 
-### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/2)
+### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/3)
