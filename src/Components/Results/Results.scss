@@ -3,3 +3,9 @@
 pre {
   background: lighten($backgroundColor, 70);
 }
+
+section {
+  display: inline-block;
+  margin: auto;
+  width: max-content
+}
