@@ -18,11 +18,14 @@ const App = () => {
   // Initialize states
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const callApi = async (requestParams) => {
     if(!requestParams || requestParams.url === "") {
       return null;
     }
+
+    setLoading(true); // Set loading to true before api call
 
     try {
       let response; 
@@ -81,8 +84,10 @@ const App = () => {
       // Update state with data and requestParams
       setData(data);
       setRequestParams(requestParams);
+    } finally {
+      setLoading(false); // Set loading to false after api call
     }
-  } 
+  }; 
 
   const url = requestParams.url ? requestParams.url : 'enter url in the form';
 
@@ -92,7 +97,7 @@ const App = () => {
       <div className="feedbackInfo">Request Method: {requestParams.method}</div>
       <div className="feedbackInfo">URL: {url}</div>
       <Form handleApiCall={callApi} />
-      <Results data={data} />
+      <Results data={data} loading={loading}/>
       <Footer />
     </React.Fragment>
   );
