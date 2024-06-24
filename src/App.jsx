@@ -24,8 +24,6 @@ const App = () => {
       return null;
     }
 
-    console.log(requestParams);
-
     try {
       let response; 
       
@@ -91,8 +89,8 @@ const App = () => {
   return (
     <React.Fragment>
       <Header />
-      <div>Request Method: {requestParams.method}</div>
-      <div>URL: {url}</div>
+      <div className="feedbackInfo">Request Method: {requestParams.method}</div>
+      <div className="feedbackInfo">URL: {url}</div>
       <Form handleApiCall={callApi} />
       <Results data={data} />
       <Footer />
