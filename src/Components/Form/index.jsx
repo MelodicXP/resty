@@ -51,13 +51,13 @@ const Form = (props) => {
             value={url} // Set input value to state variable
             onChange={handleInputChange} // Update state on input change
           />
-          <button type="submit" disabled={loading}>GO!</button> {/* Disable button while loading */}
+          <button data-testid="fetch-api-button" type="submit" disabled={loading}>GO!</button> {/* Disable button while loading */}
         </label>
 
         <div className="methods">
 
           <label>
-            <input onChange={handleMethodChange} type="radio" name="method" value ="get" />
+            <input data-testid="get-input" onChange={handleMethodChange} type="radio" name="method" value ="get" />
             <span id="get">GET</span>
           </label>
           
