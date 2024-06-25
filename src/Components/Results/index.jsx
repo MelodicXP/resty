@@ -12,10 +12,10 @@ let Results = (props) => {
       ) : (
         <>
           <section>
-            <pre>{header ? JSON.stringify({ header }, undefined, 2) : null}</pre>
+            <pre data-testid="results-header">{header ? JSON.stringify({ header }, undefined, 2) : null}</pre>
           </section>
           <section>
-            <pre>{results ? JSON.stringify({ count, results }, undefined, 2) : null}</pre>
+            <pre data-testid="results">{results ? JSON.stringify({ count, results }, undefined, 2) : null}</pre>
           </section>
         </>
       )}
