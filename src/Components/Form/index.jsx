@@ -45,6 +45,7 @@ const Form = (props) => {
         <label className="input">
           <span>URL: </span>
           <input 
+            data-testid="url-input"
             name='url' 
             type='text' 
             value={url} // Set input value to state variable
