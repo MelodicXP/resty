@@ -62,7 +62,7 @@ const Form = (props) => {
           </label>
           
           <label>
-            <input onChange={handleMethodChange} type="radio" name="method" value ="post" />
+            <input data-testid="post-input" onChange={handleMethodChange} type="radio" name="method" value ="post" />
             <span id="get">POST</span>
           </label>
           
@@ -80,6 +80,7 @@ const Form = (props) => {
           <label className="input">
             <div>Body: </div>
             <textarea
+              data-testid="body-input"
               name="body"
               value={body}
               onChange={handleBodyChange}
