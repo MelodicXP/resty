@@ -15,4 +15,24 @@ body {
     flex-direction: column;
     height: 100%;
   }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    background: lighten($backgroundColor, 50); // Define a suitable color in your variables.scss
+    padding: 1rem;
+    margin: 1rem auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  div {
+    &.feedback-info {
+      width: max-content;
+      margin: .25rem auto;
+      color: lighten($backgroundColor, 90%)
+    }
+  }
 }

@@ -1,37 +1,70 @@
-# 401 - Lab 26 - Component Based UI
+# 401 - Lab 27 - useState() Hook
 
-## Project: Create a cloud version of the CAPS system
+## Project: RESTy
 
 ### Author: Melo
 
 ### Problem Domain
 
-Begin the first of a 4-Phase build of the RESTy application, written in React. In this first phase, goal is to setup the basic scaffolding of the application, with intent being to add more functionality to the system as progression is made. This initial build sets up the file structure to progressively build application in a scalable manner.
+In phase 2, recieve user input in preparation of connecting to live APIs, using the useState() hook in our functional components. In order to properly manage state with the useState hook, we will now convert \<App /> to a functional component.
 
 ### Feature Tasks & Requirements
 
-Refactor RESTy application as follows:
+The following user stories detail the major functionality for this phase of the project.
 
-1. Convert all child components of \<App /> from classes to functions.
+* As a user, I want to enter the REST Method and URL to an API.
+* As a user, I want to see a summary of my request as well as results returned from an API request in my browser in a readable format.
 
-    * The \<App /> component serves as the container for all sub-components of this application.
-    * Leave this component as a Class.
-    * Make sure all base styles for \<App /> are included in a .scss imported within the App.jsx file.
-    * Ensure that the \<Header />, \<Footer />, \<Results /> and \<Form /> components are imported using ES6 import syntax.
+Application Flow:
 
-2. Use .scss files to style each component.
-    * Each of the components use their own .scss file for styling.
+* User enters an API URL.
+* Chooses a REST Method.
+* Clicks the “Go” button.
+* Application fetches data from the URL given, with the method specified.
+* Displays the response headers and results separately.
+* Both headers and results should be “pretty printed” JSON.
 
-3. Core application functionality should remain unchanged.
+### Technical Requirements/Note  
 
-    * The \<Form /> component should:
-        * Call a function onSubmit() that updates the \<App /> component via a function sent down as a prop so that the app can process the form values.
-    * The \<Results /> component should show mock API results.
+1. Refactor any components using this.setState() to implement the useState() react API hook.
+2. Refactor the Form Component to implement user input from form elements, instead of hard coded string values.
+
+### Componenet Hierarchy and Application Architecture
+
+* index.js - Entry Point.
+
+* \<App /> - Container.
+
+        * Holds application state: The Request (from the form) and the Response (from the API).
+        * Hook that can update state.
+        * Renders 2 Child Components.
+
+* \<Form />
+
+        * Expects a function to be sent to it as a prop.
+        * Renders a URL entry form.
+        * A selection of REST methods to choose from (“get” should be the default).
+            * The active selection should be displayed/styled differently than the others.
+
+        * Renders a Textarea to allow the user to type in a JSON object for a POST or PUT request.
+        * On submit:
+            * Send the Form entries back to the \<App /> using the method sent down in props.
+            * Form will run the API request.
+                * Toggle the “loading” status before and after the request.
+
+* \<Results />
+
+        * Conditionally renders “Loading” or the data depending on the status of the request.
+        * Renders the data as “pretty” JSON.
 
 ## Documentation
 
+![Screenshot](./assets/getAll.png)
+![Screenshot](./assets/getById.png)
+![Screenshot](./assets/post.png)
+![Screenshot](./assets/put.png)
+![Screenshot](./assets/delete.png)
 ![UML](./assets/UML.png)
-![Screenshot](./assets/screenshot.png)
 
 ### How to initialize/run your application (where applicable)
 
@@ -47,6 +80,23 @@ Install
 * "sass": "^1.77.5",
 * "uuid": "^10.0.0"
 
+Dev Dependencies
+
+* "@testing-library/jest-dom": "^6.4.6",
+* "@testing-library/react": "^16.0.0",
+* "@testing-library/user-event": "^14.5.2",
+* "@types/react": "^18.2.66",
+* "@types/react-dom": "^18.2.22",
+* "@vitejs/plugin-react": "^4.2.1",
+* "eslint": "^8.57.0",
+* "eslint-plugin-react": "^7.34.1",
+* "eslint-plugin-react-hooks": "^4.6.0",
+* "eslint-plugin-react-refresh": "^0.4.6",
+* "jest": "^29.7.0",
+* "jsdom": "^24.1.0",
+* "vite": "^5.2.0",
+* "vitest": "^1.6.0"
+
 ### React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -58,6 +108,7 @@ Currently, two official plugins are available:
 
 ### Testing
 
-Not required for this lab
+* App.jsx testing to assert CRUD method functionality
+* Form.jsx testing to assert request info capture
 
-### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/2)
+### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/3)

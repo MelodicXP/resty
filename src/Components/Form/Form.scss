@@ -1,19 +1,48 @@
 @import '../../variables.scss';
 
-
 form {
   display: inline-block;
   margin: auto;
-  width: 200px;
 
   label {
+    &.input {
+      display: flex;
+      margin: 1rem;
+      button {
+        border: 1px solid $backgroundColor;
+        cursor: pointer;
+        background: $button-background;
+        border: none;
+
+        &:hover, &.active {
+          background: $button-color-red;
+          color: $button-hover-background;
+        }
+      }
+    }
+  }
+
+
+  div {
     display: flex;
     margin: 1rem 0;
 
     &.methods {
+      display: inline-block;
+      
+      input[type=radio] {
+        display: none;
+      }
+      
+      input[type=radio]:checked + span {
+        background: $button-color-red;
+        color: $button-hover-background;
+      }
+      
       span {
+        border: 1px solid $backgroundColor;
         cursor: pointer;
-        margin-right: 1rem;
+        margin: .5rem;
         padding: .25rem .5rem;
         background: $button-background;
 
@@ -24,15 +53,5 @@ form {
       }
     }
   }
-
-  button {
-    cursor: pointer;
-    background: $button-background;
-    border: none;
-
-    &:hover, &.active {
-      background: $button-color-red;
-      color: $button-hover-background;
-    }
-  }
 }
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -12,64 +13,96 @@ import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
 
-class App extends React.Component {
+const App = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
-  }
+  // Initialize states
+  const [data, setData] = useState(null);
+  const [requestParams, setRequestParams] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  callApi = async (requestParams) => {
+  const callApi = async (requestParams) => {
     if(!requestParams || requestParams.url === "") {
-      // const data = {};
       return null;
     }
 
+    setLoading(true); // Set loading to true before api call
+
     try {
-      let response = await axios.get(requestParams.url);
-        
-        let count;
-        let results;
+      let response; 
+      
+      // If method is get or delete, no body required
+      if(requestParams.method === 'get' || requestParams.method === 'delete') {
+        response = await axios({
+          method: requestParams.method,
+          url: requestParams.url,
+        });
+      } else {
+        response = await axios({
+          method: requestParams.method,
+          url: requestParams.url,
+          data: requestParams.body
+        });
+      }
+      
+      let count;
+      let results;
+      let header;
 
-        // Check if response contains an array of results
-        if(Array.isArray(response.data.results)) {
-          results = response.data.results;
-          count = response.data.results.length;
-        } else {
-          // For single object if result is not an array
-          results = [response.data]; // Add response object into an array
-          count = 1
-        }
-        // Create data object
-        const data = {
-          count: count,
-          results: results,
-        };
+      // Check if response contains an array of results
+      if(Array.isArray(response.data)) {
+        results = response.data;
+        count = response.data.length;
+        header = response.headers;
+      } else {
+        // For single object if result is not an array
+        results = [response.data]; // Add response object into an array
+        count = 1
+        header = response.headers;
+      }
+      // Create data object
+      const data = {
+        header: header,
+        count: count,
+        results: results,
+      };
 
-        // Update state with data an requestParams
-        this.setState({data, requestParams});
+      // Update state with data an requestParams
+      setData(data);
+      setRequestParams(requestParams);
     
     } catch (error) {
       console.error('Error fetching data: ', error);
-    }
-  }
+      let count = 0; // if error count is zero
+      let results = [error.response.data.message]; // log message
 
-  render() {
-    const url = this.state.requestParams.url ? this.state.requestParams.url : 'enter url in the form';
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {url}</div>
-        <Form handleApiCall={this.callApi} />
-        <Results data={this.state.data} />
-        <Footer />
-      </React.Fragment>
-    );
-  }
+      // Create data object
+      const data = {
+        count: count, 
+        results: results,
+      };
+
+      // Update state with data and requestParams
+      setData(data);
+      setRequestParams(requestParams);
+    } finally {
+      setLoading(false); // Set loading to false after api call
+    }
+  }; 
+
+  const url = requestParams.url ? requestParams.url : 'enter url in the form';
+
+  return (
+    <React.Fragment>
+      <Header />
+      <div className="form-container">
+        <div data-testid="request-method-display" className="feedback-info">Request Method: {requestParams.method}</div>
+        <div data-testid="url-display" className="feedback-info">URL: {url}</div>
+        <Form handleApiCall={callApi} />
+        <Results data={data} loading={loading}/>
+      </div>
+      <Footer />
+    </React.Fragment>
+  );
 }
 
 export default App;
