@@ -62,5 +62,62 @@ describe('App', () => {
     expect(resultsAndCounter).not.toBeNull();
 
   });
+  
+  it('should do a put api call', () => {
+
+    render(<App />);
+
+    const urlInput = screen.getByTestId('url-input');
+    const putInput = screen.getByTestId('put-input');
+    const submitButton = screen.getByTestId('fetch-api-button');
+    const resultsHeaderInfo = screen.getByTestId('results-header');
+    const resultsAndCounter = screen.getByTestId('results');
+    
+    // User inputs
+    let method = 'put';
+    let url = 'https://four01lab03-api-server-prod.onrender.com/author';
+    let body = '{ "name": "Author5","numBooksPublished": 11}';
+    
+    // Input url and click put method radio button
+    fireEvent.change(urlInput, {target: {value: url}});
+    fireEvent.click(putInput, {target: {value: method}});
+    
+    // Body input field appears, check not null
+    const bodyInput = screen.getByTestId('body-input');
+    expect(bodyInput).not.toBeNull();
+    
+    // Input body for post method
+    fireEvent.change(bodyInput, {target: {value: body}});
+
+    // Click submit button
+    fireEvent.click(submitButton);
+
+    // Header and results not null
+    expect(resultsHeaderInfo).not.toBeNull();
+    expect(resultsAndCounter).not.toBeNull();
+
+  });
+
+  it('should do a delete api call', () => {
+
+    render(<App />);
+
+    const urlInput = screen.getByTestId('url-input');
+    const deleteInput = screen.getByTestId('delete-input');
+    const submitButton = screen.getByTestId('fetch-api-button');
+    const resultsHeaderInfo = screen.getByTestId('results-header');
+    const resultsAndCounter = screen.getByTestId('results');
+
+    let method = 'delete';
+    let url = 'https://four01lab03-api-server-prod.onrender.com/author';
+
+    fireEvent.change(urlInput, {target: {value: url}});
+    fireEvent.click(deleteInput, {target: {value: method}});
+    fireEvent.click(submitButton);
+
+    expect(resultsHeaderInfo).not.toBeNull();
+    expect(resultsAndCounter).not.toBeNull();
+
+  });
 
 });
