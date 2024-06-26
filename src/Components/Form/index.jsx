@@ -67,12 +67,12 @@ const Form = (props) => {
           </label>
           
           <label>
-            <input onChange={handleMethodChange} type="radio" name="method" value ="put" />
+            <input data-testid="put-input" onChange={handleMethodChange} type="radio" name="method" value ="put" />
             <span id="get">PUT</span>
           </label>
           
           <label>
-            <input onChange={handleMethodChange} type="radio" name="method" value ="delete" />
+            <input data-testid="delete-input" onChange={handleMethodChange} type="radio" name="method" value ="delete" />
             <span id="get">DELETE</span>
           </label>
 
