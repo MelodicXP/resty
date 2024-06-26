@@ -80,6 +80,23 @@ Install
 * "sass": "^1.77.5",
 * "uuid": "^10.0.0"
 
+Dev Dependencies
+
+* "@testing-library/jest-dom": "^6.4.6",
+* "@testing-library/react": "^16.0.0",
+* "@testing-library/user-event": "^14.5.2",
+* "@types/react": "^18.2.66",
+* "@types/react-dom": "^18.2.22",
+* "@vitejs/plugin-react": "^4.2.1",
+* "eslint": "^8.57.0",
+* "eslint-plugin-react": "^7.34.1",
+* "eslint-plugin-react-hooks": "^4.6.0",
+* "eslint-plugin-react-refresh": "^0.4.6",
+* "jest": "^29.7.0",
+* "jsdom": "^24.1.0",
+* "vite": "^5.2.0",
+* "vitest": "^1.6.0"
+
 ### React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -91,6 +108,7 @@ Currently, two official plugins are available:
 
 ### Testing
 
-Not required for this lab
+* App.jsx testing to assert CRUD method functionality
+* Form.jsx testing to assert request info capture
 
 ### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/3)
