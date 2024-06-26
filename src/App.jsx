@@ -95,8 +95,8 @@ const App = () => {
     <React.Fragment>
       <Header />
       <div className="form-container">
-        <div className="feedback-info">Request Method: {requestParams.method}</div>
-        <div className="feedback-info">URL: {url}</div>
+        <div data-testid="request-method-display" className="feedback-info">Request Method: {requestParams.method}</div>
+        <div data-testid="url-display" className="feedback-info">URL: {url}</div>
         <Form handleApiCall={callApi} />
         <Results data={data} loading={loading}/>
       </div>
