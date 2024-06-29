@@ -1,4 +1,4 @@
-# 401 - Lab 27 - useState() Hook
+# 401 - Lab 28 - useEffect() Hook
 
 ## Project: RESTy
 
@@ -6,7 +6,7 @@
 
 ### Problem Domain
 
-In phase 2, recieve user input in preparation of connecting to live APIs, using the useState() hook in our functional components. In order to properly manage state with the useState hook, we will now convert \<App /> to a functional component.
+In phase 3, connect RESTy to live APIs, fetching and displaying remote data. Implement useEffect(). \<App /> has an effect hook that’s looking for changes to the request variable in state, and in response, runs the API request with the new request options from state.  
 
 ### Feature Tasks & Requirements
 
@@ -26,8 +26,11 @@ Application Flow:
 
 ### Technical Requirements/Note  
 
-1. Refactor any components using this.setState() to implement the useState() react API hook.
-2. Refactor the Form Component to implement user input from form elements, instead of hard coded string values.
+1. Refactor application methods to allow for browser side HTTP requests to be sent.
+
+     * Implementation should allow the user to set a url, method, and request body.
+
+2. Make sure all relevant request and response data is displayed to the User
 
 ### Componenet Hierarchy and Application Architecture
 
@@ -111,4 +114,4 @@ Currently, two official plugins are available:
 * App.jsx testing to assert CRUD method functionality
 * Form.jsx testing to assert request info capture
 
-### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/3)
+### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/4)
