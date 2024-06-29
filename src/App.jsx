@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -19,30 +19,36 @@ const App = () => {
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({});
   const [loading, setLoading] = useState(false);
+  const [request, setRequest] = useState({});
 
-  const callApi = async (requestParams) => {
-    if(!requestParams || requestParams.url === "") {
+  const callApi = (_requestParams) => {
+    if(!_requestParams || _requestParams.url === "") {
       return null;
     }
 
+    let newRequest = {};
+
+    if (_requestParams.method === 'get' || _requestParams.method === 'delete') {
+      newRequest = {
+        method: _requestParams.method,
+        url: _requestParams.url,
+      }
+    } else {
+      newRequest = {
+        method: _requestParams.method,
+        url: _requestParams.url,
+        data: _requestParams.body
+      }
+    }
+
+    setRequest( newRequest );
+  }; 
+
+  const fetch = useCallback (async () => {
     setLoading(true); // Set loading to true before api call
 
     try {
-      let response; 
-      
-      // If method is get or delete, no body required
-      if(requestParams.method === 'get' || requestParams.method === 'delete') {
-        response = await axios({
-          method: requestParams.method,
-          url: requestParams.url,
-        });
-      } else {
-        response = await axios({
-          method: requestParams.method,
-          url: requestParams.url,
-          data: requestParams.body
-        });
-      }
+      let response = await axios(request); 
       
       let count;
       let results;
@@ -59,6 +65,7 @@ const App = () => {
         count = 1
         header = response.headers;
       }
+
       // Create data object
       const data = {
         header: header,
@@ -66,9 +73,9 @@ const App = () => {
         results: results,
       };
 
-      // Update state with data an requestParams
+      // Update state with data and requestParams
       setData(data);
-      setRequestParams(requestParams);
+      setRequestParams(request);
     
     } catch (error) {
       console.error('Error fetching data: ', error);
@@ -83,11 +90,24 @@ const App = () => {
 
       // Update state with data and requestParams
       setData(data);
-      setRequestParams(requestParams);
+      setRequestParams(request);
     } finally {
       setLoading(false); // Set loading to false after api call
     }
-  }; 
+  }, [request]);
+
+ // Watch request variable for changes
+  useEffect(() => {
+    console.log('fetching from useEffect() hook');
+
+    if (request.method && request.url) {
+      fetch();
+    }
+
+    return () => {
+      console.log('Clean up log');
+    };
+  }, [request, fetch]);
 
   const url = requestParams.url ? requestParams.url : 'enter url in the form';
 
