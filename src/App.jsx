@@ -49,23 +49,27 @@ const App = () => {
 
     try {
       let response = await axios(request); 
+      let count; // counts how many authors in response
+      let results; // holds response.data from axios
+      let header; // holds header data from axios
       
-      let count;
-      let results;
-      let header;
-
-      // Check if response contains an array of results
-      if(Array.isArray(response.data)) {
+      // Log data from server
+      let jsonString = response.data ? JSON.stringify( response.data, null, 2 ) : null;
+      console.log('Returned from server: ', jsonString);
+      
+      // Check if response data is an array
+      if (Array.isArray(response.data)) {
+        // Check if response contains an array of results directly
         results = response.data;
         count = response.data.length;
-        header = response.headers;
       } else {
         // For single object if result is not an array
         results = [response.data]; // Add response object into an array
-        count = 1
-        header = response.headers;
+        count = results.length;
       }
-
+      
+      header = response.headers;
+      
       // Create data object
       const data = {
         header: header,
