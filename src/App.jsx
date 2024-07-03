@@ -12,6 +12,7 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import History from './Components/History';
 
 const App = () => {
 
@@ -123,6 +124,7 @@ const App = () => {
         <div data-testid="url-display" className="feedback-info">URL: {url}</div>
         <Form handleApiCall={callApi} />
         <Results data={data} loading={loading}/>
+        <History />
       </div>
       <Footer />
     </React.Fragment>
