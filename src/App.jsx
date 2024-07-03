@@ -21,6 +21,11 @@ const App = () => {
   const [requestParams, setRequestParams] = useState({});
   const [loading, setLoading] = useState(false);
   const [request, setRequest] = useState({});
+  const [history, setHistory] = useState([]);
+
+  const addToHistory = (newData) => {
+    setHistory((previousHistory) => [...previousHistory, newData]);
+  };
 
   const callApi = (_requestParams) => {
     if(!_requestParams || _requestParams.url === "") {
@@ -98,6 +103,7 @@ const App = () => {
       setRequestParams(request);
     } finally {
       setLoading(false); // Set loading to false after api call
+      addToHistory(request); // Add request info to history
     }
   }, [request]);
 
@@ -124,7 +130,7 @@ const App = () => {
         <div data-testid="url-display" className="feedback-info">URL: {url}</div>
         <Form handleApiCall={callApi} />
         <Results data={data} loading={loading}/>
-        <History />
+        <History history={history}/>
       </div>
       <Footer />
     </React.Fragment>

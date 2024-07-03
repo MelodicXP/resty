@@ -1,10 +1,18 @@
 import './History.scss';
 
-let History = () => {
+let History = (props) => {
+  const { history } = props;
+
   return (
     <section>
       <pre data-testid="history">
-        history data goes here
+        <ul>
+          {history.map((item, index) => (
+            <div key ={index}>
+              {JSON.stringify(item, null, 2)};
+            </div>
+          ))}
+        </ul>
       </pre>
     </section>
   );
