@@ -141,7 +141,7 @@ const App = () => {
         <div data-testid="url-display" className="feedback-info">URL: {url}</div>
         <Form handleApiCall={callApi} />
         <Results data={data} loading={loading}/>
-        <History history={history}/>
+        <History history={history} handleApiCall={callApi}/>
       </div>
       <Footer />
     </React.Fragment>
