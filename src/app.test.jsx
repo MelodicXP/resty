@@ -127,20 +127,18 @@ describe('App', () => {
 
   });
   
-  it('should do a put api call', () => {
+  it('should do a put api call', async () => {
 
     render(<App />);
 
     const urlInput = screen.getByTestId('url-input');
     const putInput = screen.getByTestId('put-input');
     const submitButton = screen.getByTestId('fetch-api-button');
-    const resultsHeaderInfo = screen.getByTestId('results-header');
-    const resultsAndCounter = screen.getByTestId('results');
     
     // User inputs
     let method = 'put';
     let url = '/author/3';
-    let body = '{ "name": "Author5","numBooksPublished": 11}';
+    let body = '{ "name": "testAuthor3Update","numBooksPublished": 3}';
     
     // Input url and click put method radio button
     fireEvent.change(urlInput, {target: {value: url}});
@@ -156,21 +154,29 @@ describe('App', () => {
     // Click submit button
     fireEvent.click(submitButton);
 
-    // Header and results not null
-    expect(resultsHeaderInfo).not.toBeNull();
-    expect(resultsAndCounter).not.toBeNull();
+    // Wait for the API call to complete and the component to re-render
+    await waitFor(() => {
+      const resultsHeaderInfo = screen.getByTestId('results-header');
+      const resultsAndCounter = screen.getByTestId('results');
 
+      expect(resultsHeaderInfo).not.toBeNull();
+      expect(resultsAndCounter).not.toBeNull();
+
+      const parsedResults = JSON.parse(resultsAndCounter.textContent);
+
+      // Ensure the text content matches the expected response on screen
+      let stringifiedCount = JSON.stringify(parsedResults.count);
+      expect(resultsAndCounter.textContent).toContain(stringifiedCount, JSON.stringify(putReturn, null, 2));
+    });
   });
 
-  it('should do a delete api call', () => {
+  it('should do a delete api call', async () => {
 
     render(<App />);
 
     const urlInput = screen.getByTestId('url-input');
     const deleteInput = screen.getByTestId('delete-input');
     const submitButton = screen.getByTestId('fetch-api-button');
-    const resultsHeaderInfo = screen.getByTestId('results-header');
-    const resultsAndCounter = screen.getByTestId('results');
 
     let method = 'delete';
     let url = '/author/3';
@@ -179,9 +185,19 @@ describe('App', () => {
     fireEvent.click(deleteInput, {target: {value: method}});
     fireEvent.click(submitButton);
 
-    expect(resultsHeaderInfo).not.toBeNull();
-    expect(resultsAndCounter).not.toBeNull();
+    // Wait for the API call to complete and the component to re-render
+    await waitFor(() => {
+      const resultsHeaderInfo = screen.getByTestId('results-header');
+      const resultsAndCounter = screen.getByTestId('results');
 
+      expect(resultsHeaderInfo).not.toBeNull();
+      expect(resultsAndCounter).not.toBeNull();
+
+      const parsedResults = JSON.parse(resultsAndCounter.textContent);
+
+      // Ensure the text content matches the expected response on screen
+      let stringifiedCount = JSON.stringify(parsedResults.count);
+      expect(resultsAndCounter.textContent).toContain(stringifiedCount, JSON.stringify(deleteReturn, null, 2));
+    });
   });
-
 });
