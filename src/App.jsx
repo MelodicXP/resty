@@ -24,7 +24,18 @@ const App = () => {
   const [history, setHistory] = useState([]);
 
   const addToHistory = (newData) => {
-    setHistory((previousHistory) => [...previousHistory, newData]);
+    setHistory((previousHistory) => {
+      const exists = previousHistory.some(
+        (item) =>
+          item.method === newData.method &&
+          item.url === newData.url &&
+          JSON.stringify(item.data) === JSON.stringify(newData.data)
+      );
+      if (!exists) {
+        return [...previousHistory, newData];
+      }
+      return previousHistory;
+    });
   };
 
   const callApi = (_requestParams) => {
