@@ -34,22 +34,26 @@ const History = (props) => {
 
   return (
     <section>
-      <h3>History</h3>
+      <h3>History (select one and click GO!)</h3>
       <pre data-testid="history">
-        <form className="methods" onSubmit={handleSubmit}>
+        <form className='history-form' onSubmit={handleSubmit}>
           {history.map((item, index) => (
-            <label key ={index}>
+            <label key ={index} className='history-display'>
               <input 
                 data-testid={`${item.method}-input`}
                 onChange={() => handleHistoryClick(item)}
                 type="radio" 
                 name="method"
                 value={item.method}
+                className='history-input'
               />
+              
               <span id={item.method}>
                 {JSON.stringify(item, null, 2)};
               </span>
+
               <button data-testid="fetch-api-button" type="submit" disabled={loading}>GO!</button>
+            
             </label>
           ))}
         </form>
