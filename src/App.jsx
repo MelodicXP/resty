@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useReducer } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -14,11 +14,42 @@ import Form from './Components/Form';
 import Results from './Components/Results';
 import History from './Components/History';
 
+
+// useReducer initial states
+const apiInitialState = {
+  // data: null,
+  requestParams: {},
+  // loading: false,
+  // request: {},
+  // history: []
+
+};
+
+const apiReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_REQUEST_PARAMETERS':
+      return { ...state, requestParams: action.payload };
+    // Add other cases as needed
+    default:
+      return state;
+  }
+};
+
 const App = () => {
+
+  const [state, dispatch] = useReducer(apiReducer, apiInitialState);
+
+  // Destructure the state for easier access
+  const { requestParams } = state;
+
+  function setRequestParams(params) {
+    let action = { type: 'SET_REQUEST_PARAMETERS', payload: params };
+    dispatch(action);
+  }
 
   // Initialize states
   const [data, setData] = useState(null);
-  const [requestParams, setRequestParams] = useState({});
+  // const [requestParams, setRequestParams] = useState({});
   const [loading, setLoading] = useState(false);
   const [request, setRequest] = useState({});
   const [history, setHistory] = useState([]);
