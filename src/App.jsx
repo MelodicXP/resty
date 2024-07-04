@@ -20,9 +20,8 @@ const apiInitialState = {
   data: null,
   requestParams: {},
   loading: false,
-  // request: {},
+  request: {},
   // history: []
-
 };
 
 const apiReducer = (state, action) => {
@@ -34,6 +33,10 @@ const apiReducer = (state, action) => {
       return {...state, loading: action.payload};
     case 'SET_DATA':
       return {...state, data: action.payload};
+    case 'SET_REQUEST':
+      return {...state, request: action.payload};
+    case 'SET_HISTORY':
+      return {...state, history: action.payload};
     default:
       return state;
   }
@@ -43,8 +46,8 @@ const App = () => {
 
   const [state, dispatch] = useReducer(apiReducer, apiInitialState);
 
-  // Destructure the state for easier access
-  const { requestParams, loading, data } = state;
+  // Destructure the state
+  const { requestParams, loading, data, request } = state;
 
   function setRequestParams(params) {
     let action = { type: 'SET_REQUEST_PARAMETERS', payload: params };
@@ -61,11 +64,16 @@ const App = () => {
     dispatch(action);
   }
 
+  function setRequest(newRequest) {
+    let action = { type: 'SET_REQUEST', payload: newRequest};
+    dispatch(action);
+  }
+
   // Initialize states
   // const [data, setData] = useState(null);
   // const [requestParams, setRequestParams] = useState({});
   // const [loading, setLoading] = useState(false);
-  const [request, setRequest] = useState({});
+  // const [request, setRequest] = useState({});
   const [history, setHistory] = useState([]);
 
   const addToHistory = (newData) => {
