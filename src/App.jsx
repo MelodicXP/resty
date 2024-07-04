@@ -19,7 +19,7 @@ import History from './Components/History';
 const apiInitialState = {
   // data: null,
   requestParams: {},
-  // loading: false,
+  loading: false,
   // request: {},
   // history: []
 
@@ -30,6 +30,8 @@ const apiReducer = (state, action) => {
     case 'SET_REQUEST_PARAMETERS':
       return { ...state, requestParams: action.payload };
     // Add other cases as needed
+    case 'SET_LOADING':
+      return {...state, loading: action.payload}
     default:
       return state;
   }
@@ -40,17 +42,22 @@ const App = () => {
   const [state, dispatch] = useReducer(apiReducer, apiInitialState);
 
   // Destructure the state for easier access
-  const { requestParams } = state;
+  const { requestParams, loading } = state;
 
   function setRequestParams(params) {
     let action = { type: 'SET_REQUEST_PARAMETERS', payload: params };
     dispatch(action);
   }
 
+  function setLoading(boolean) {
+    let action = { type: 'SET_LOADING', payload: boolean};
+    dispatch(action);
+  }
+
   // Initialize states
   const [data, setData] = useState(null);
   // const [requestParams, setRequestParams] = useState({});
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [request, setRequest] = useState({});
   const [history, setHistory] = useState([]);
 
