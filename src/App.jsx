@@ -17,7 +17,7 @@ import History from './Components/History';
 
 // useReducer initial states
 const apiInitialState = {
-  // data: null,
+  data: null,
   requestParams: {},
   loading: false,
   // request: {},
@@ -31,7 +31,9 @@ const apiReducer = (state, action) => {
       return { ...state, requestParams: action.payload };
     // Add other cases as needed
     case 'SET_LOADING':
-      return {...state, loading: action.payload}
+      return {...state, loading: action.payload};
+    case 'SET_DATA':
+      return {...state, data: action.payload};
     default:
       return state;
   }
@@ -42,7 +44,7 @@ const App = () => {
   const [state, dispatch] = useReducer(apiReducer, apiInitialState);
 
   // Destructure the state for easier access
-  const { requestParams, loading } = state;
+  const { requestParams, loading, data } = state;
 
   function setRequestParams(params) {
     let action = { type: 'SET_REQUEST_PARAMETERS', payload: params };
@@ -54,8 +56,13 @@ const App = () => {
     dispatch(action);
   }
 
+  function setData(data) {
+    let action = { type: 'SET_DATA', payload: data};
+    dispatch(action);
+  }
+
   // Initialize states
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   // const [requestParams, setRequestParams] = useState({});
   // const [loading, setLoading] = useState(false);
   const [request, setRequest] = useState({});
