@@ -1,12 +1,55 @@
 @import '../../variables';
 
-
-pre {
-  background: lighten($backgroundColor, 70);
+.history-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-section {
-  display: inline-block;
-  margin: auto;
-  width: max-content
+.history-display {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  width: 100%;
+  height: max-content;
+  // border: 1px solid black;
+
+  button {
+    border: 1px solid $backgroundColor;
+    cursor: pointer;
+    background: $text-color-yellow;
+    margin-right: 1rem;
+  
+    &:hover, &.active {
+      background: $button-color-red;
+      color: $button-hover-background;
+    }
+  }
+  
+  span {
+    border: 1px solid $backgroundColor;
+    cursor: pointer;
+    margin: .5rem;
+    padding: .25rem .5rem;
+    background: $button-background;
+    width: 100%;
+
+    &:hover, &.active {
+      background: $button-color-red;
+      color: $button-hover-background;
+    }
+  } 
 }
+
+.history-display [type=radio] {
+  display: none;
+}
+
+.history-display [type=radio]:checked + span {
+  background: $button-color-red;
+  color: $button-hover-background;
+}
+
+
+
+
