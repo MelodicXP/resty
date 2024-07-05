@@ -1,4 +1,4 @@
-# 401 - Lab 28 - useEffect() Hook
+# 401 - Lab 29 - useReducer() Hook
 
 ## Project: RESTy
 
@@ -6,14 +6,13 @@
 
 ### Problem Domain
 
-In phase 3, connect RESTy to live APIs, fetching and displaying remote data. Implement useEffect(). \<App /> has an effect hook that’s looking for changes to the request variable in state, and in response, runs the API request with the new request options from state.  
+In phase 4, track every API call and store it in history.
 
 ### Feature Tasks & Requirements
 
 The following user stories detail the major functionality for this phase of the project.
 
-* As a user, I want to enter the REST Method and URL to an API.
-* As a user, I want to see a summary of my request as well as results returned from an API request in my browser in a readable format.
+* As a user, I want to see a list of my previous API calls, so that I can see the results again, quickly.
 
 Application Flow:
 
@@ -21,16 +20,22 @@ Application Flow:
 * Chooses a REST Method.
 * Clicks the “Go” button.
 * Application fetches data from the URL given, with the method specified.
+* Application stores the API request and returned data into state.
+  * Updates the list of previous API calls.
 * Displays the response headers and results separately.
-* Both headers and results should be “pretty printed” JSON.
+  * Both headers and results should be “pretty printed” JSON.
 
 ### Technical Requirements/Note  
 
-1. Refactor application methods to allow for browser side HTTP requests to be sent.
+1. Replace any component state managements to use derived state from useReducer() with a reducer function and initial state.
 
-     * Implementation should allow the user to set a url, method, and request body.
+* \<App />: Use a reducer to store and manage all application state: loading, results, history.
+  * Add to history array in state after every api call
+    * method, url, results (json).
 
-2. Make sure all relevant request and response data is displayed to the User
+* \<History />: Iterates the history array in state and shows the previous API calls.
+  * When one is clicked on, show the results in the results component.
+    * Note: the results component renders whatever is in state.
 
 ### Componenet Hierarchy and Application Architecture
 
@@ -60,6 +65,13 @@ Application Flow:
         * Conditionally renders “Loading” or the data depending on the status of the request.
         * Renders the data as “pretty” JSON.
 
+* \<History />
+
+        Iterates the history array in state and shows the previous API calls.
+
+        * When one is clicked on, show the results in the results component.
+        * Note: the results component renders whatever is in state.
+
 ## Documentation
 
 ![Screenshot](./assets/getAll.png)
@@ -67,6 +79,7 @@ Application Flow:
 ![Screenshot](./assets/post.png)
 ![Screenshot](./assets/put.png)
 ![Screenshot](./assets/delete.png)
+![Screenshot](./assets/historyRender.png)
 ![UML](./assets/UML.png)
 
 ### How to initialize/run your application (where applicable)
@@ -113,5 +126,6 @@ Currently, two official plugins are available:
 
 * App.jsx testing to assert CRUD method functionality
 * Form.jsx testing to assert request info capture
+* msw (mock server) used for testing
 
 ### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/4)
