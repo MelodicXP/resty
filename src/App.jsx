@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useCallback, useReducer } from 'react';
+import { useEffect, useCallback, useReducer } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -21,22 +21,31 @@ const apiInitialState = {
   requestParams: {},
   loading: false,
   request: {},
-  // history: []
+  history: []
 };
 
 const apiReducer = (state, action) => {
   switch (action.type) {
     case 'SET_REQUEST_PARAMETERS':
       return { ...state, requestParams: action.payload };
-    // Add other cases as needed
     case 'SET_LOADING':
-      return {...state, loading: action.payload};
+      return { ...state, loading: action.payload };
     case 'SET_DATA':
-      return {...state, data: action.payload};
+      return { ...state, data: action.payload };
     case 'SET_REQUEST':
-      return {...state, request: action.payload};
-    case 'SET_HISTORY':
-      return {...state, history: action.payload};
+      return { ...state, request: action.payload };
+    case 'ADD_TO_HISTORY': {
+      const exists = state.history.some(
+        (item) =>
+          item.method === action.payload.method &&
+          item.url === action.payload.url &&
+          JSON.stringify(item.data) === JSON.stringify(action.payload.data)
+      );
+      if (!exists) {
+        return { ...state, history: [...state.history, action.payload] };
+      }
+      return state;
+    }
     default:
       return state;
   }
@@ -47,7 +56,7 @@ const App = () => {
   const [state, dispatch] = useReducer(apiReducer, apiInitialState);
 
   // Destructure the state
-  const { requestParams, loading, data, request } = state;
+  const { requestParams, loading, data, request, history } = state;
 
   function setRequestParams(params) {
     let action = { type: 'SET_REQUEST_PARAMETERS', payload: params };
@@ -69,28 +78,11 @@ const App = () => {
     dispatch(action);
   }
 
-  // Initialize states
-  // const [data, setData] = useState(null);
-  // const [requestParams, setRequestParams] = useState({});
-  // const [loading, setLoading] = useState(false);
-  // const [request, setRequest] = useState({});
-  const [history, setHistory] = useState([]);
-
-  const addToHistory = (newData) => {
-    setHistory((previousHistory) => {
-      const exists = previousHistory.some(
-        (item) =>
-          item.method === newData.method &&
-          item.url === newData.url &&
-          JSON.stringify(item.data) === JSON.stringify(newData.data)
-      );
-      if (!exists) {
-        return [...previousHistory, newData];
-      }
-      return previousHistory;
-    });
-  };
-
+  const addToHistory = useCallback((newData) => {
+    let action = { type: 'ADD_TO_HISTORY', payload: newData};
+    dispatch(action);
+  }, []);
+  
   const callApi = (_requestParams) => {
     if(!_requestParams || _requestParams.url === "") {
       return null;
@@ -169,7 +161,7 @@ const App = () => {
       setLoading(false); // Set loading to false after api call
       addToHistory(request); // Add request info to history
     }
-  }, [request]);
+  }, [addToHistory, request]);
 
  // Watch request variable for changes
   useEffect(() => {
