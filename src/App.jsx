@@ -1,8 +1,8 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useReducer } from 'react';
 import axios from 'axios';
-
 import './App.scss';
+import apiReducer from './state';
 
 // Let's talk about using index.js and some other name in the component folder.
 // There's pros and cons for each way of doing this...
@@ -12,15 +12,50 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import History from './Components/History';
+
+
+// useReducer initial states
+const apiInitialState = {
+  data: null,
+  requestParams: {},
+  loading: false,
+  request: {},
+  history: []
+};
 
 const App = () => {
 
-  // Initialize states
-  const [data, setData] = useState(null);
-  const [requestParams, setRequestParams] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [request, setRequest] = useState({});
+  const [state, dispatch] = useReducer(apiReducer, apiInitialState);
 
+  // Destructure the state
+  const { requestParams, loading, data, request, history } = state;
+
+  function setRequestParams(params) {
+    let action = { type: 'SET_REQUEST_PARAMETERS', payload: params };
+    dispatch(action);
+  }
+
+  function setLoading(boolean) {
+    let action = { type: 'SET_LOADING', payload: boolean};
+    dispatch(action);
+  }
+
+  function setData(data) {
+    let action = { type: 'SET_DATA', payload: data};
+    dispatch(action);
+  }
+
+  function setRequest(newRequest) {
+    let action = { type: 'SET_REQUEST', payload: newRequest};
+    dispatch(action);
+  }
+
+  const addToHistory = useCallback((newData) => {
+    let action = { type: 'ADD_TO_HISTORY', payload: newData};
+    dispatch(action);
+  }, []);
+  
   const callApi = (_requestParams) => {
     if(!_requestParams || _requestParams.url === "") {
       return null;
@@ -49,23 +84,27 @@ const App = () => {
 
     try {
       let response = await axios(request); 
+      let count; // counts how many authors in response
+      let results; // holds response.data from axios
+      let header; // holds header data from axios
       
-      let count;
-      let results;
-      let header;
-
-      // Check if response contains an array of results
-      if(Array.isArray(response.data)) {
+      // Log data from server
+      let jsonString = response.data ? JSON.stringify( response.data, null, 2 ) : null;
+      console.log('Returned from server: ', jsonString);
+      
+      // Check if response data is an array
+      if (Array.isArray(response.data)) {
+        // Check if response contains an array of results directly
         results = response.data;
         count = response.data.length;
-        header = response.headers;
       } else {
         // For single object if result is not an array
         results = [response.data]; // Add response object into an array
-        count = 1
-        header = response.headers;
+        count = results.length;
       }
-
+      
+      header = response.headers;
+      
       // Create data object
       const data = {
         header: header,
@@ -93,8 +132,9 @@ const App = () => {
       setRequestParams(request);
     } finally {
       setLoading(false); // Set loading to false after api call
+      addToHistory(request); // Add request info to history
     }
-  }, [request]);
+  }, [addToHistory, request]);
 
  // Watch request variable for changes
   useEffect(() => {
@@ -119,6 +159,7 @@ const App = () => {
         <div data-testid="url-display" className="feedback-info">URL: {url}</div>
         <Form handleApiCall={callApi} />
         <Results data={data} loading={loading}/>
+        <History history={history} handleApiCall={callApi}/>
       </div>
       <Footer />
     </React.Fragment>

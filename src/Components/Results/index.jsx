@@ -12,6 +12,7 @@ let Results = (props) => {
       ) : (
         <>
           <section>
+          <h3>Results</h3>
             <pre data-testid="results-header">{header ? JSON.stringify({ header }, undefined, 2) : null}</pre>
           </section>
           <section>
