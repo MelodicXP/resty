@@ -128,4 +128,4 @@ Currently, two official plugins are available:
 * Form.jsx testing to assert request info capture
 * msw (mock server) used for testing
 
-### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/4)
+### Link to Pull Request ---> [Pull Request](https://github.com/MelodicXP/resty/pull/5)
